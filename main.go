@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/geekreflex/qrshare/internal/qr"
@@ -17,6 +18,12 @@ func main() {
 	folder := os.Args[1]
 	ip := utils.GetLocalIP()
 	url := fmt.Sprintf("http://%s:8080", ip)
+
+	basePath, _ := os.UserHomeDir()
+	distPath := "web/dist"
+
+	mux := http.NewServeMux()
+	server.RegisterRoutes(mux, basePath, distPath)
 
 	go server.ServeFiles(folder)
 	qr.PrintQRCode(url)
