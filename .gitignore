@@ -1,0 +1,15 @@
+# Go
+/bin/
+/pkg/
+*.exe
+*.log
+*.test
+*.out
+
+# Node
+node_modules/
+dist/
+build/
+
+# Env
+.env
