@@ -6,13 +6,10 @@ import (
 	"github.com/geekreflex/qrshare/internal/files"
 )
 
-func RegisterRoutes(mux *http.ServeMux, basePath string, distPath string) {
-	// Serve React UI
-	mux.Handle("/", http.FileServer(http.Dir(distPath)))
+func RegisterRoutes(mux *http.ServeMux, basePath string) {
+	// Register API routes under /api
+	mux.Handle("/api/files/list", http.HandlerFunc(files.ListFilesHandler(basePath)))
 
-	// Serve file metadata (API)
-	mux.Handle("/api/files", files.ListFilesHandler(basePath))
-
-	// Serve actual files for download
-	mux.Handle("/files/", http.StripPrefix("/files/", http.FileServer(http.Dir(basePath))))
+	// Serve files from local filesystem (for downloads, previews, etc.)
+	mux.Handle("/api/files/raw/", http.StripPrefix("/api/files/raw/", http.FileServer(http.Dir(basePath))))
 }

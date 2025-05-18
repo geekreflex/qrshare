@@ -10,7 +10,7 @@ export default function FileExplorer() {
   const [files, setFiles] = useState<FileItem[]>([]);
 
   useEffect(() => {
-    fetch("/api/files") // or just '/' depending on your Go backend
+    fetch("/api/files/list") // or just '/' depending on your Go backend
       .then((res) => res.json())
       .then((data) => setFiles(data))
       .catch((err) => console.error("Error loading files:", err));
@@ -25,7 +25,7 @@ export default function FileExplorer() {
         >
           <span>{file.name}</span>
           <a
-            href={`/files/${file.path}`}
+            href={`/api/files/raw/${file.path}`}
             className="text-blue-500 hover:underline"
             download={!file.isDir}
           >
